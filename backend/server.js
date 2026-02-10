@@ -122,3 +122,13 @@ process.on('SIGTERM', () => {
         process.exit(0);
     });
 });
+
+// Update CORS:
+const corsOptions = {
+    origin: [
+        'https://gotham.onrender.com',  // Your Render URL
+        'http://localhost:5500'
+    ],
+    credentials: true,
+    optionsSuccessStatus: 200
+};
