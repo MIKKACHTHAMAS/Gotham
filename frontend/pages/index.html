@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comic Secure - Ultimate Security for Heroes</title>
+    <link rel="stylesheet" href="/assets/css/comic-theme.css">
+    <style>
+        .hero-section {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, 
+                rgba(8, 8, 8, 0.95) 0%, 
+                rgba(81, 81, 85, 0.8) 100%),
+                url('/assets/images/hero-bg.jpg') center/cover;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(174, 136, 117, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(127, 128, 134, 0.2) 0%, transparent 50%);
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            margin-bottom: var(--space-lg);
+            background: linear-gradient(45deg, var(--boho-brown), var(--white));
+            -webkit-background: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 10px rgba(174, 136, 117, 0.5)); }
+            to { filter: drop-shadow(0 0 20px rgba(174, 136, 117, 0.8)); }
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: var(--space-md);
+            justify-content: center;
+            margin-top: var(--space-xl);
+        }
+
+        .features-section {
+            padding: var(--space-xxl) 0;
+            background-color: var(--authentic-black);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-xl);
+            margin-top: var(--space-xl);
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: var(--space-xl);
+            border: 2px solid transparent;
+            transition: all var(--transition-normal);
+        }
+
+        .feature-card:hover {
+            border-color: var(--boho-brown);
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: var(--space-lg);
+            color: var(--boho-brown);
+        }
+
+        .cta-section {
+            padding: var(--space-xxl) 0;
+            background: linear-gradient(135deg, var(--asteroid), var(--authentic-black));
+            text-align: center;
+        }
+
+        .cta-card {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: var(--space-xxl);
+            background-color: rgba(8, 8, 8, 0.8);
+            border-radius: var(--radius-lg);
+            border: 3px solid var(--boho-brown);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="logo">Comic Secure</a>
+            <ul class="nav-links">
+                <li><a href="/" class="active">Home</a></li>
+                <li><a href="/about.html">About</a></li>
+                <li><a href="/contact.html">Contact</a></li>
+                <li><a href="/login.html">Login</a></li>
+                <li><a href="/register.html" class="btn btn-primary btn-sm">Join Free</a></li>
+            </ul>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">☰</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Secure Your Heroic Journey</h1>
+                <p class="hero-subtitle">
+                    Fortify your digital fortress with military-grade security, 
+                    comic-style interface, and superhero-level protection. 
+                    Join thousands of heroes who trust Comic Secure.
+                </p>
+                
+                <div class="hero-buttons">
+                    <a href="/register.html" class="btn btn-primary btn-lg">
+                        🦸 Start Free Trial
+                    </a>
+                    <a href="/about.html" class="btn btn-secondary btn-lg">
+                        🎬 Watch Demo
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <h2 class="text-center">Superhero-Grade Features</h2>
+            <p class="text-center text-cold-grey mb-xl">
+                Everything a modern hero needs to stay secure in the digital universe.
+            </p>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Military-Grade Encryption</h3>
+                    <p>AES-256 encryption keeps your data safer than Fort Knox. Even the most powerful villains can't crack it.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Real-Time Threat Detection</h3>
+                    <p>Our AI-powered system detects and neutralizes threats before they even get close to your fortress.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3>Cross-Platform Protection</h3>
+                    <p>Secure all your devices - phone, tablet, computer - with a single hero account.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Lightning Fast</h3>
+                    <p>Security shouldn't slow you down. Our optimized system works at superhero speed.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">👥</div>
+                    <h3>Team Protection</h3>
+                    <p>Protect your entire hero squad with group security features and shared vaults.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Advanced Analytics</h3>
+                    <p>Get detailed insights into your security posture and potential vulnerabilities.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-card">
+                <h2>Ready to Become a Security Hero?</h2>
+                <p class="mt-md mb-xl">
+                    Join thousands of heroes who have already secured their digital lives with Comic Secure.
+                    No credit card required for the free trial!
+                </p>
+                
+                <a href="/register.html" class="btn btn-primary btn-lg">
+                    🚀 Start Your Heroic Journey
+                </a>
+                
+                <p class="mt-lg text-sm text-cold-grey">
+                    Already a hero? 
+                    <a href="/login.html" class="text-boho-brown">Login to your fortress</a>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Comic Secure</h3>
+                    <p>Your ultimate security headquarters. Protecting heroes since 2024.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="/about.html">About Us</a></li>
+                        <li><a href="/contact.html">Contact</a></li>
+                        <li><a href="/privacy.html">Privacy Policy</a></li>
+                        <li><a href="/terms.html">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Connect</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">Discord</a></li>
+                        <li><a href="#">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2024 Comic Secure. All rights reserved. Superhero protection guaranteed!</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        });
+    </script>
+</body>
+</html>

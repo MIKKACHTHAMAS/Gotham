@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="your-csrf-token-here">
+    <title>Settings - Comic Secure</title>
+    <link rel="stylesheet" href="/assets/css/comic-theme.css">
+    <style>
+        .settings-container {
+            padding: var(--space-xl) 0;
+        }
+
+        .settings-tabs {
+            display: flex;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-xl);
+            border-bottom: 2px solid var(--asteroid);
+            padding-bottom: var(--space-sm);
+            overflow-x: auto;
+        }
+
+        .settings-tab {
+            padding: var(--space-md) var(--space-lg);
+            background: none;
+            border: none;
+            color: var(--cold-grey);
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: var(--radius-md) var(--radius-md) 0 0;
+            transition: all var(--transition-fast);
+            white-space: nowrap;
+        }
+
+        .settings-tab:hover {
+            color: var(--white);
+            background-color: rgba(81, 81, 85, 0.3);
+        }
+
+        .settings-tab.active {
+            color: var(--boho-brown);
+            background-color: var(--asteroid);
+            border-bottom: 3px solid var(--boho-brown);
+        }
+
+        .settings-content {
+            display: none;
+        }
+
+        .settings-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .danger-zone {
+            background-color: rgba(255, 68, 68, 0.1);
+            border: 2px solid var(--error-red);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+            margin-top: var(--space-xl);
+        }
+
+        .danger-zone h2 {
+            color: var(--error-red);
+        }
+
+        .danger-zone .btn-danger {
+            margin-top: var(--space-md);
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+            margin-left: var(--space-md);
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--cold-grey);
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--boho-brown);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-lg);
+            background-color: var(--asteroid);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--space-md);
+        }
+
+        .setting-info h3 {
+            margin-bottom: var(--space-xs);
+        }
+
+        .setting-description {
+            color: var(--cold-grey);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body class="authenticated">
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="logo">Comic Secure</a>
+            <ul class="nav-links">
+                <li><a href="/dashboard.html">Dashboard</a></li>
+                <li><a href="/profile.html">Profile</a></li>
+                <li><a href="/settings.html" class="active">Settings</a></li>
+                <li><a href="/contact.html">Contact</a></li>
+                <li><a href="#" id="logoutBtn">Logout</a></li>
+            </ul>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">☰</button>
+        </div>
+    </nav>
+
+    <!-- Settings Content -->
+    <main class="settings-container">
+        <div class="container">
+            <h1>Security Headquarters</h1>
+            <p class="text-cold-grey">Configure your account settings and security preferences.</p>
+
+            <!-- Settings Tabs -->
+            <div class="settings-tabs">
+                <button class="settings-tab active" data-tab="profile">🦸 Profile</button>
+                <button class="settings-tab" data-tab="security">🔒 Security</button>
+                <button class="settings-tab" data-tab="privacy">👁️ Privacy</button>
+                <button class="settings-tab" data-tab="notifications">🔔 Notifications</button>
+                <button class="settings-tab" data-tab="appearance">🎨 Appearance</button>
+            </div>
+
+            <!-- Profile Tab -->
+            <div class="settings-content active" id="profileTab">
+                <div class="settings-section">
+                    <h2>Hero Identity</h2>
+                    
+                    <form id="profileForm">
+                        <div class="grid grid-2 gap-md mb-lg">
+                            <div class="form-group">
+                                <label for="settingsUsername" class="form-label">Hero Alias</label>
+                                <input type="text" id="settingsUsername" class="form-input" 
+                                       placeholder="Your hero name">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="settingsFullName" class="form-label">Secret Identity</label>
+                                <input type="text" id="settingsFullName" class="form-input" 
+                                       placeholder="Your real name">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="settingsEmail" class="form-label">Communication Channel</label>
+                            <input type="email" id="settingsEmail" class="form-input" 
+                                   placeholder="Your email address">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="settingsBio" class="form-label">Hero Bio</label>
+                            <textarea id="settingsBio" class="form-input" rows="4" 
+                                      placeholder="Tell us about your heroic deeds..."></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Security Tab -->
+            <div class="settings-content" id="securityTab">
+                <div class="settings-section">
+                    <h2>Security Fortifications</h2>
+                    
+                    <!-- Password Change -->
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h3>Password</h3>
+                            <p class="setting-description">Last changed: 30 days ago</p>
+                        </div>
+                        <button onclick="showPasswordModal()" class="btn btn-secondary">
+                            Change Password
+                        </button>
+                    </div>
+
+                    <!-- Two-Factor Authentication -->
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h3>Two-Factor Authentication</h3>
+                            <p class="setting-description">Add an extra layer of security to your account</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="twoFactorToggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <!-- Session Management -->
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h3>Active Sessions</h3>
+                            <p class="setting-description">Manage your logged-in devices</p>
+                        </div>
+                        <button onclick="viewSessions()" class="btn btn-secondary">
+                            Manage Sessions
+                        </button>
+                    </div>
+
+                    <!-- Login History -->
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h3>Login History</h3>
+                            <p class="setting-description">Review your recent account activity</p>
+                        </div>
+                        <button onclick="viewLoginHistory()" class="btn btn-secondary">
+                            View History
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Privacy Tab -->
+            <div class="settings-content" id="privacyTab">
+                <div class="settings-section">
+                    <h2>Privacy Shield</h2>
+                    
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h3>Profile Visibility</h3>
+                            <p class="setting-description">Control who can see your profile information</p>
+                        </div>
+                        <select class="form-input" style="width: auto;">
+                            <option>Private</option>
+                            <option>Friends Only</option>
+                            <option>Public</option>
+                        </select>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h3>Data Sharing</h3>
+                            <p class="setting-description">Allow usage data for improvement purposes</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="dataSharingToggle" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <h3>Email Preferences</h3>
+                            <p class="setting-description">Control what emails you receive</p>
+                        </div>
+                        <button onclick="manageEmails()" class="btn btn-secondary">
+                            Manage Emails
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Danger Zone -->
+            <div class="danger-zone">
+                <h2>⚠️ Danger Zone</h2>
+                <p>These actions are irreversible. Please proceed with caution.</p>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h3>Delete Account</h3>
+                        <p class="setting-description">Permanently delete your account and all data</p>
+                    </div>
+                    <button onclick="showDeleteModal()" class="btn btn-danger">
+                        Delete Account
+                    </button>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h3>Export Data</h3>
+                        <p class="setting-description">Download all your data in a portable format</p>
+                    </div>
+                    <button onclick="exportAllData()" class="btn btn-secondary">
+                        Export Data
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Password Modal -->
+    <div id="passwordModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h2>Change Password</h2>
+            <form id="passwordForm">
+                <div class="form-group">
+                    <label for="currentPassword" class="form-label">Current Password</label>
+                    <input type="password" id="currentPassword" class="form-input" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="newPassword" class="form-label">New Password</label>
+                    <input type="password" id="newPassword" class="form-input" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmNewPassword" class="form-label">Confirm New Password</label>
+                    <input type="password" id="confirmNewPassword" class="form-input" required>
+                </div>
+
+                <div class="flex gap-md mt-lg">
+                    <button type="submit" class="btn btn-primary">Change Password</button>
+                    <button type="button" onclick="closeModal('passwordModal')" 
+                            class="btn btn-secondary">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Modal -->
+    <div id="deleteModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h2 style="color: var(--error-red);">⚠️ Delete Account</h2>
+            <p>This action cannot be undone. All your data will be permanently deleted.</p>
+            
+            <div class="form-group">
+                <label for="deletePassword" class="form-label">Enter your password to confirm:</label>
+                <input type="password" id="deletePassword" class="form-input" required>
+            </div>
+
+            <div class="flex gap-md mt-lg">
+                <button onclick="confirmDelete()" class="btn btn-danger">Delete Account</button>
+                <button onclick="closeModal('deleteModal')" class="btn btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Comic Secure</h3>
+                    <p>Your ultimate security headquarters. Protecting heroes since 2024.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="/about.html">About Us</a></li>
+                        <li><a href="/contact.html">Contact</a></li>
+                        <li><a href="/privacy.html">Privacy Policy</a></li>
+                        <li><a href="/terms.html">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Connect</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">Discord</a></li>
+                        <li><a href="#">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2024 Comic Secure. All rights reserved. Superhero protection guaranteed!</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/assets/js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check authentication
+            if (!authService.isAuthenticated()) {
+                window.location.href = '/login.html';
+                return;
+            }
+
+            // Load user data
+            loadUserSettings();
+
+            // Tab switching
+            document.querySelectorAll('.settings-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.dataset.tab;
+                    
+                    // Update active tab
+                    document.querySelectorAll('.settings-tab').forEach(t => {
+                        t.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    // Show corresponding content
+                    document.querySelectorAll('.settings-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    document.getElementById(`${tabId}Tab`).classList.add('active');
+                });
+            });
+
+            // Profile form
+            document.getElementById('profileForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const username = document.getElementById('settingsUsername').value;
+                const fullName = document.getElementById('settingsFullName').value;
+                const email = document.getElementById('settingsEmail').value;
+                const bio = document.getElementById('settingsBio').value;
+
+                try {
+                    await authService.updateProfile({ username, fullName, email });
+                    alert('Profile updated successfully!');
+                } catch (error) {
+                    alert('Failed to update profile: ' + error.message);
+                }
+            });
+
+            // Password form
+            document.getElementById('passwordForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const currentPassword = document.getElementById('currentPassword').value;
+                const newPassword = document.getElementById('newPassword').value;
+                const confirmPassword = document.getElementById('confirmNewPassword').value;
+
+                if (newPassword !== confirmPassword) {
+                    alert('Passwords do not match!');
+                    return;
+                }
+
+                try {
+                    await authService.changePassword(currentPassword, newPassword);
+                    alert('Password changed successfully!');
+                    closeModal('passwordModal');
+                } catch (error) {
+                    alert('Failed to change password: ' + error.message);
+                }
+            });
+
+            // Logout
+            document.getElementById('logoutBtn').addEventListener('click', async function(e) {
+                e.preventDefault();
+                await authService.logout();
+            });
+
+            // Mobile menu
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const navLinks = document.querySelector('.nav-links');
+            
+            mobileMenuBtn.addEventListener('click', function() {
+                navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+            });
+        });
+
+        function loadUserSettings() {
+            const user = authService.getCurrentUser();
+            if (!user) return;
+
+            document.getElementById('settingsUsername').value = user.username || '';
+            document.getElementById('settingsFullName').value = user.fullName || '';
+            document.getElementById('settingsEmail').value = user.email || '';
+        }
+
+        function showPasswordModal() {
+            document.getElementById('passwordModal').style.display = 'block';
+        }
+
+        function showDeleteModal() {
+            document.getElementById('deleteModal').style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        async function confirmDelete() {
+            const password = document.getElementById('deletePassword').value;
+            
+            if (!password) {
+                alert('Please enter your password');
+                return;
+            }
+
+            if (!confirm('Are you absolutely sure? This action cannot be undone!')) {
+                return;
+            }
+
+            try {
+                await authService.deleteAccount(password);
+                alert('Account deleted successfully');
+                window.location.href = '/';
+            } catch (error) {
+                alert('Failed to delete account: ' + error.message);
+            }
+        }
+
+        function viewSessions() {
+            alert('Session management coming soon!');
+        }
+
+        function viewLoginHistory() {
+            alert('Login history coming soon!');
+        }
+
+        function manageEmails() {
+            alert('Email preferences coming soon!');
+        }
+
+        function exportAllData() {
+            alert('Data export coming soon!');
+        }
+    </script>
+</body>
+</html>

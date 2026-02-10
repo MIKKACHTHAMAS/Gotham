@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: comic-secure-backend
+    env: node
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_ACCESS_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+    healthCheckPath: /health
+    autoDeploy: true
+
+  - type: web
+    name: comic-secure-frontend
+    env: static
+    buildCommand: echo "Building frontend..."
+    staticPublishPath: ./
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html

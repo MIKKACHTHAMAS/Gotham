@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="your-csrf-token-here">
+    <title>Contact Us - Comic Secure</title>
+    <link rel="stylesheet" href="/assets/css/comic-theme.css">
+    <style>
+        .contact-container {
+            padding: var(--space-xl) 0;
+        }
+
+        .contact-header {
+            text-align: center;
+            margin-bottom: var(--space-xl);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-xl);
+        }
+
+        .contact-form-container {
+            background-color: var(--asteroid);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+        }
+
+        .contact-info {
+            background-color: var(--asteroid);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-md);
+            margin-bottom: var(--space-xl);
+        }
+
+        .info-icon {
+            font-size: 1.5rem;
+            color: var(--boho-brown);
+            background-color: rgba(174, 136, 117, 0.1);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .info-content h3 {
+            margin-bottom: var(--space-xs);
+        }
+
+        .info-content p {
+            color: var(--cold-grey);
+        }
+
+        .faq-section {
+            margin-top: var(--space-xl);
+            background-color: var(--asteroid);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+        }
+
+        .faq-item {
+            margin-bottom: var(--space-lg);
+            border-bottom: 1px solid var(--cold-grey);
+            padding-bottom: var(--space-lg);
+        }
+
+        .faq-item:last-child {
+            margin-bottom: 0;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .faq-question {
+            font-weight: bold;
+            color: var(--white);
+            margin-bottom: var(--space-sm);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            color: var(--cold-grey);
+            display: none;
+        }
+
+        .faq-answer.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="authenticated">
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="logo">Comic Secure</a>
+            <ul class="nav-links">
+                <li><a href="/dashboard.html">Dashboard</a></li>
+                <li><a href="/profile.html">Profile</a></li>
+                <li><a href="/settings.html">Settings</a></li>
+                <li><a href="/contact.html" class="active">Contact</a></li>
+                <li><a href="#" id="logoutBtn">Logout</a></li>
+            </ul>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">☰</button>
+        </div>
+    </nav>
+
+    <!-- Contact Content -->
+    <main class="contact-container">
+        <div class="container">
+            <div class="contact-header">
+                <h1>Contact Hero Support</h1>
+                <p class="text-cold-grey">Need help? Our hero squad is ready to assist you 24/7!</p>
+            </div>
+
+            <div class="contact-grid">
+                <!-- Contact Form -->
+                <div class="contact-form-container">
+                    <h2>Send a Message</h2>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="contactName" class="form-label">Your Hero Name</label>
+                            <input type="text" id="contactName" class="form-input" 
+                                   placeholder="What should we call you?" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contactEmail" class="form-label">Email Address</label>
+                            <input type="email" id="contactEmail" class="form-input" 
+                                   placeholder="Where can we reach you?" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contactSubject" class="form-label">Subject</label>
+                            <input type="text" id="contactSubject" class="form-input" 
+                                   placeholder="What's this about?" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contactMessage" class="form-label">Your Message</label>
+                            <textarea id="contactMessage" class="form-input" rows="6" 
+                                      placeholder="Describe your heroic quest or issue..." required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            🚀 Send Message
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Contact Information -->
+                <div class="contact-info">
+                    <h2>Other Ways to Reach Us</h2>
+                    
+                    <div class="info-item">
+                        <div class="info-icon">📧</div>
+                        <div class="info-content">
+                            <h3>Email Support</h3>
+                            <p>support@comicsecure.com</p>
+                            <p class="text-sm">Response time: 24 hours</p>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-icon">🕐</div>
+                        <div class="info-content">
+                            <h3>Support Hours</h3>
+                            <p>24/7 Hero Support</p>
+                            <p class="text-sm">Always ready to assist!</p>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-icon">📚</div>
+                        <div class="info-content">
+                            <h3>Knowledge Base</h3>
+                            <p>Check our extensive hero guides and tutorials</p>
+                            <a href="/knowledge-base.html" class="btn btn-secondary btn-sm mt-sm">
+                                Visit Knowledge Base
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-icon">🐛</div>
+                        <div class="info-content">
+                            <h3>Bug Reports</h3>
+                            <p>Found a bug? Report it to our tech heroes!</p>
+                            <a href="/bug-report.html" class="btn btn-secondary btn-sm mt-sm">
+                                Report a Bug
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ Section -->
+            <div class="faq-section">
+                <h2>Frequently Asked Questions</h2>
+                
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(1)">
+                        How secure is Comic Secure?
+                        <span>➕</span>
+                    </div>
+                    <div class="faq-answer" id="faq1">
+                        <p>Comic Secure uses military-grade encryption, multi-factor authentication, and regular security audits to ensure your data is protected. We follow OWASP Top 10 security practices and comply with industry standards.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(2)">
+                        Can I recover my account if I forget my password?
+                        <span>➕</span>
+                    </div>
+                    <div class="faq-answer" id="faq2">
+                        <p>Yes! Use the "Forgot Password" feature on the login page. We'll send a secure reset link to your registered email. For security reasons, reset links expire after 1 hour.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(3)">
+                        Is my personal data sold to third parties?
+                        <span>➕</span>
+                    </div>
+                    <div class="faq-answer" id="faq3">
+                        <p>Never! We value your privacy. Your data is never sold, rented, or shared with third parties for marketing purposes. Read our detailed Privacy Policy for more information.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(4)">
+                        How do I enable two-factor authentication?
+                        <span>➕</span>
+                    </div>
+                    <div class="faq-answer" id="faq4">
+                        <p>Go to Settings → Security → Two-Factor Authentication. You can enable it using an authenticator app like Google Authenticator or Authy.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Comic Secure</h3>
+                    <p>Your ultimate security headquarters. Protecting heroes since 2024.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="/about.html">About Us</a></li>
+                        <li><a href="/contact.html">Contact</a></li>
+                        <li><a href="/privacy.html">Privacy Policy</a></li>
+                        <li><a href="/terms.html">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Connect</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">Discord</a></li>
+                        <li><a href="#">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2024 Comic Secure. All rights reserved. Superhero protection guaranteed!</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/assets/js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check authentication
+            if (!authService.isAuthenticated()) {
+                window.location.href = '/login.html';
+                return;
+            }
+
+            // Contact form submission
+            document.getElementById('contactForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('contactName').value;
+                const email = document.getElementById('contactEmail').value;
+                const subject = document.getElementById('contactSubject').value;
+                const message = document.getElementById('contactMessage').value;
+
+                // Validate email
+                if (!FormValidator.validateEmail(email)) {
+                    alert('Please enter a valid email address');
+                    return;
+                }
+
+                const submitBtn = this.querySelector('button[type="submit"]');
+                const originalText = submitBtn.textContent;
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Sending...';
+
+                try {
+                    // In a real app, this would call your contact API
+                    // await authService.request('/contact', {
+                    //     method: 'POST',
+                    //     body: JSON.stringify({ name, email, subject, message })
+                    // });
+                    
+                    // Simulate API call
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    
+                    alert('Message sent successfully! Our hero squad will get back to you soon.');
+                    this.reset();
+                    
+                } catch (error) {
+                    alert('Failed to send message. Please try again.');
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalText;
+                }
+            });
+
+            // Logout
+            document.getElementById('logoutBtn').addEventListener('click', async function(e) {
+                e.preventDefault();
+                await authService.logout();
+            });
+
+            // Mobile menu
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const navLinks = document.querySelector('.nav-links');
+            
+            mobileMenuBtn.addEventListener('click', function() {
+                navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+            });
+        });
+
+        function toggleFaq(index) {
+            const faq = document.getElementById(`faq${index}`);
+            const icon = faq.previousElementSibling.querySelector('span');
+            
+            if (faq.classList.contains('show')) {
+                faq.classList.remove('show');
+                icon.textContent = '➕';
+            } else {
+                faq.classList.add('show');
+                icon.textContent = '➖';
+            }
+        }
+    </script>
+</body>
+</html>

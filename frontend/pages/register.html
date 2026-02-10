@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="your-csrf-token-here">
+    <title>Join the Adventure - Comic Secure</title>
+    <link rel="stylesheet" href="/assets/css/comic-theme.css">
+    <style>
+        .register-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-md);
+        }
+
+        .register-card {
+            width: 100%;
+            max-width: 500px;
+            background-color: var(--asteroid);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+            border: 2px solid var(--boho-brown);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .register-title {
+            text-align: center;
+            margin-bottom: var(--space-xl);
+        }
+
+        .register-logo {
+            display: block;
+            margin: 0 auto var(--space-lg);
+            font-size: 3rem;
+            color: var(--boho-brown);
+        }
+
+        .password-strength {
+            margin-top: var(--space-sm);
+            padding: var(--space-sm);
+            background-color: rgba(8, 8, 8, 0.5);
+            border-radius: var(--radius-md);
+        }
+
+        .strength-meter {
+            height: 4px;
+            background-color: var(--cold-grey);
+            border-radius: var(--radius-sm);
+            margin-top: var(--space-sm);
+            overflow: hidden;
+        }
+
+        .strength-meter-fill {
+            height: 100%;
+            width: 0%;
+            transition: width var(--transition-normal);
+            border-radius: var(--radius-sm);
+        }
+
+        .strength-text {
+            font-size: 0.9rem;
+            color: var(--cold-grey);
+        }
+
+        .requirements {
+            margin-top: var(--space-md);
+            padding: var(--space-md);
+            background-color: rgba(8, 8, 8, 0.3);
+            border-radius: var(--radius-md);
+            font-size: 0.9rem;
+        }
+
+        .requirement {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-xs);
+            color: var(--cold-grey);
+        }
+
+        .requirement.met {
+            color: var(--success-green);
+        }
+
+        .requirement::before {
+            content: '◯';
+            font-size: 0.8rem;
+        }
+
+        .requirement.met::before {
+            content: '✓';
+            color: var(--success-green);
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: var(--space-lg);
+            padding-top: var(--space-md);
+            border-top: 1px solid var(--cold-grey);
+        }
+    </style>
+</head>
+<body class="unauthenticated">
+    <div class="register-container">
+        <div class="register-card">
+            <div class="register-logo">🦸‍♂️</div>
+            <h1 class="register-title">Join the Comic Secure League!</h1>
+            
+            <form id="registerForm">
+                <div class="grid grid-2 gap-md">
+                    <div class="form-group">
+                        <label for="username" class="form-label">Hero Alias*</label>
+                        <input type="text" id="username" class="form-input" 
+                               placeholder="e.g., CyberKnight" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fullName" class="form-label">Full Name</label>
+                        <input type="text" id="fullName" class="form-input" 
+                               placeholder="Your secret identity">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email" class="form-label">Email Address*</label>
+                    <input type="email" id="email" class="form-input" 
+                           placeholder="hero@comicsecure.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="form-label">Super Secret Password*</label>
+                    <input type="password" id="password" class="form-input" 
+                           placeholder="At least 12 characters" required>
+                    
+                    <div class="password-strength">
+                        <div class="strength-text">Password Strength: <span id="strengthText">Weak</span></div>
+                        <div class="strength-meter">
+                            <div class="strength-meter-fill" id="strengthMeter"></div>
+                        </div>
+                    </div>
+
+                    <div class="requirements" id="passwordRequirements">
+                        <div class="requirement" id="reqLength">At least 12 characters</div>
+                        <div class="requirement" id="reqUppercase">One uppercase letter</div>
+                        <div class="requirement" id="reqLowercase">One lowercase letter</div>
+                        <div class="requirement" id="reqNumber">One number</div>
+                        <div class="requirement" id="reqSpecial">One special character</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword" class="form-label">Confirm Password*</label>
+                    <input type="password" id="confirmPassword" class="form-input" 
+                           placeholder="Repeat your super secret password" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="terms" required>
+                        I agree to the 
+                        <a href="/terms.html" target="_blank">Terms of Service</a> 
+                        and 
+                        <a href="/privacy.html" target="_blank">Privacy Policy</a>
+                    </label>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+                    Create My Hero Account!
+                </button>
+
+                <div class="form-footer">
+                    <p>Already part of the league? 
+                        <a href="/login.html">Login to Your Lair</a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="/assets/js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('registerForm');
+            const passwordInput = document.getElementById('password');
+            const confirmPasswordInput = document.getElementById('confirmPassword');
+            const strengthMeter = document.getElementById('strengthMeter');
+            const strengthText = document.getElementById('strengthText');
+
+            // Password strength calculation
+            function calculatePasswordStrength(password) {
+                let strength = 0;
+                
+                // Length check
+                if (password.length >= 12) strength += 20;
+                if (password.length >= 16) strength += 10;
+                
+                // Character type checks
+                if (/[A-Z]/.test(password)) strength += 20;
+                if (/[a-z]/.test(password)) strength += 20;
+                if (/\d/.test(password)) strength += 20;
+                if (/[^A-Za-z0-9]/.test(password)) strength += 20;
+                
+                // Additional complexity
+                if (password.length >= 8 && 
+                    /[A-Z]/.test(password) && 
+                    /[a-z]/.test(password) && 
+                    /\d/.test(password) && 
+                    /[^A-Za-z0-9]/.test(password)) {
+                    strength += 10;
+                }
+                
+                return Math.min(strength, 100);
+            }
+
+            // Update password requirements UI
+            function updatePasswordRequirements(password) {
+                const requirements = {
+                    length: password.length >= 12,
+                    uppercase: /[A-Z]/.test(password),
+                    lowercase: /[a-z]/.test(password),
+                    number: /\d/.test(password),
+                    special: /[^A-Za-z0-9]/.test(password)
+                };
+
+                // Update each requirement visually
+                document.getElementById('reqLength').classList.toggle('met', requirements.length);
+                document.getElementById('reqUppercase').classList.toggle('met', requirements.uppercase);
+                document.getElementById('reqLowercase').classList.toggle('met', requirements.lowercase);
+                document.getElementById('reqNumber').classList.toggle('met', requirements.number);
+                document.getElementById('reqSpecial').classList.toggle('met', requirements.special);
+
+                // Update strength meter
+                const strength = calculatePasswordStrength(password);
+                strengthMeter.style.width = `${strength}%`;
+                
+                // Update strength text and color
+                let strengthLevel, color;
+                if (strength < 40) {
+                    strengthLevel = 'Weak';
+                    color = '#ff4444';
+                } else if (strength < 70) {
+                    strengthLevel = 'Fair';
+                    color = '#ffaa44';
+                } else if (strength < 90) {
+                    strengthLevel = 'Good';
+                    color = '#44ffaa';
+                } else {
+                    strengthLevel = 'Strong';
+                    color = '#44ff44';
+                }
+                
+                strengthText.textContent = strengthLevel;
+                strengthMeter.style.backgroundColor = color;
+            }
+
+            // Real-time password validation
+            passwordInput.addEventListener('input', function() {
+                const password = this.value;
+                FormValidator.clearError(this);
+                updatePasswordRequirements(password);
+                
+                // Clear confirm password error if passwords match
+                if (confirmPasswordInput.value && password === confirmPasswordInput.value) {
+                    FormValidator.clearError(confirmPasswordInput);
+                }
+            });
+
+            // Confirm password validation
+            confirmPasswordInput.addEventListener('input', function() {
+                const password = passwordInput.value;
+                const confirmPassword = this.value;
+                
+                if (confirmPassword && password !== confirmPassword) {
+                    FormValidator.showError(this, 'Passwords do not match');
+                } else {
+                    FormValidator.clearError(this);
+                }
+            });
+
+            // Form submission
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Clear previous errors
+                document.querySelectorAll('.form-error').forEach(el => el.remove());
+                document.querySelectorAll('.form-input').forEach(el => el.classList.remove('error'));
+
+                // Get form values
+                const username = document.getElementById('username').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const fullName = document.getElementById('fullName').value.trim();
+                const password = passwordInput.value;
+                const confirmPassword = confirmPasswordInput.value;
+                const termsAccepted = document.getElementById('terms').checked;
+
+                // Validate username
+                const usernameError = FormValidator.validateUsername(username);
+                if (usernameError) {
+                    FormValidator.showError(document.getElementById('username'), usernameError);
+                    return;
+                }
+
+                // Validate email
+                if (!email) {
+                    FormValidator.showError(document.getElementById('email'), 'Email is required');
+                    return;
+                }
+
+                if (!FormValidator.validateEmail(email)) {
+                    FormValidator.showError(document.getElementById('email'), 'Please enter a valid email address');
+                    return;
+                }
+
+                // Validate password
+                const passwordError = FormValidator.validatePassword(password);
+                if (passwordError) {
+                    FormValidator.showError(passwordInput, passwordError);
+                    return;
+                }
+
+                // Validate confirm password
+                if (password !== confirmPassword) {
+                    FormValidator.showError(confirmPasswordInput, 'Passwords do not match');
+                    return;
+                }
+
+                // Validate terms
+                if (!termsAccepted) {
+                    FormValidator.showError(document.getElementById('terms'), 
+                        'You must agree to the terms and conditions');
+                    return;
+                }
+
+                // Disable submit button
+                const submitBtn = form.querySelector('button[type="submit"]');
+                const originalText = submitBtn.textContent;
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Creating Account...';
+
+                try {
+                    // Attempt registration
+                    const userData = { 
+                        username, 
+                        email, 
+                        password, 
+                        fullName: fullName || undefined 
+                    };
+                    
+                    await authService.register(userData);
+                    
+                    // Show success message
+                    FormValidator.showSuccess(passwordInput, 'Account created successfully! Redirecting...');
+                    
+                    // Redirect to dashboard
+                    setTimeout(() => {
+                        window.location.href = '/dashboard.html';
+                    }, 1500);
+
+                } catch (error) {
+                    // Show error message
+                    const errorMessage = error.message.includes('already exists') 
+                        ? 'Email or username already in use' 
+                        : error.message;
+                    
+                    FormValidator.showError(document.getElementById('email'), errorMessage);
+                    
+                    // Reset button
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalText;
+                }
+            });
+
+            // Check if already logged in
+            if (authService.isAuthenticated()) {
+                window.location.href = '/dashboard.html';
+            }
+        });
+    </script>
+</body>
+</html>

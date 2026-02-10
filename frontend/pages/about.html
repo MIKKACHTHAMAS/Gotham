@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Comic Secure</title>
+    <link rel="stylesheet" href="/assets/css/comic-theme.css">
+    <style>
+        .about-container {
+            padding: var(--space-xl) 0;
+        }
+
+        .about-hero {
+            text-align: center;
+            margin-bottom: var(--space-xxl);
+        }
+
+        .mission-section {
+            background-color: var(--asteroid);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xxl);
+            margin-bottom: var(--space-xxl);
+            text-align: center;
+        }
+
+        .mission-icon {
+            font-size: 4rem;
+            margin-bottom: var(--space-lg);
+            color: var(--boho-brown);
+        }
+
+        .team-section {
+            margin-bottom: var(--space-xxl);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-xl);
+            margin-top: var(--space-xl);
+        }
+
+        .team-member {
+            text-align: center;
+            padding: var(--space-xl);
+            background-color: var(--asteroid);
+            border-radius: var(--radius-lg);
+            transition: transform var(--transition-normal);
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px);
+        }
+
+        .member-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--boho-brown), var(--asteroid));
+            margin: 0 auto var(--space-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--authentic-black);
+            border: 3px solid var(--boho-brown);
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: var(--space-xxl) auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background-color: var(--boho-brown);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            margin-bottom: var(--space-xl);
+            position: relative;
+            width: 45%;
+        }
+
+        .timeline-item:nth-child(odd) {
+            margin-left: 0;
+            margin-right: auto;
+        }
+
+        .timeline-item:nth-child(even) {
+            margin-left: auto;
+            margin-right: 0;
+        }
+
+        .timeline-content {
+            background-color: var(--asteroid);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            border: 2px solid var(--boho-brown);
+        }
+
+        .timeline-year {
+            font-weight: bold;
+            color: var(--boho-brown);
+            margin-bottom: var(--space-sm);
+        }
+
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-xl);
+            margin: var(--space-xxl) 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: var(--space-lg);
+            background-color: var(--asteroid);
+            border-radius: var(--radius-lg);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--boho-brown);
+            margin-bottom: var(--space-sm);
+        }
+
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item {
+                width: calc(100% - 50px);
+                margin-left: 50px !important;
+                margin-right: 0 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="logo">Comic Secure</a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/about.html" class="active">About</a></li>
+                <li><a href="/contact.html">Contact</a></li>
+                <li><a href="/login.html">Login</a></li>
+                <li><a href="/register.html" class="btn btn-primary btn-sm">Join Free</a></li>
+            </ul>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">☰</button>
+        </div>
+    </nav>
+
+    <!-- About Content -->
+    <main class="about-container">
+        <div class="container">
+            <!-- Hero Section -->
+            <div class="about-hero">
+                <h1>Our Heroic Mission</h1>
+                <p class="hero-subtitle">
+                    From comic book dreams to digital security reality - 
+                    protecting heroes one byte at a time.
+                </p>
+            </div>
+
+            <!-- Mission Statement -->
+            <div class="mission-section">
+                <div class="mission-icon">🦸‍♂️</div>
+                <h2>Protecting Heroes Since 2024</h2>
+                <p>
+                    At Comic Secure, we believe every digital citizen deserves superhero-level protection. 
+                    Our mission is to make advanced security accessible, intuitive, and downright awesome 
+                    for everyone - from casual users to enterprise heroes.
+                </p>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-section">
+                <div class="stat-item">
+                    <div class="stat-number">10,000+</div>
+                    <div class="stat-label">Heroes Protected</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">99.9%</div>
+                    <div class="stat-label">Uptime</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">0</div>
+                    <div class="stat-label">Security Breaches</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Hero Support</div>
+                </div>
+            </div>
+
+            <!-- Timeline -->
+            <div class="timeline">
+                <h2 class="text-center mb-xl">Our Heroic Journey</h2>
+                
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2024</div>
+                        <h3>The Beginning</h3>
+                        <p>Founded by a team of security experts and comic enthusiasts who saw the need for user-friendly, powerful security solutions.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2024 Q2</div>
+                        <h3>First Hero Onboard</h3>
+                        <p>Launched our beta version and welcomed our first 100 heroic users to the platform.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2024 Q3</div>
+                        <h3>Security Milestone</h3>
+                        <p>Achieved SOC 2 Type II certification, proving our commitment to enterprise-grade security.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2024 Q4</div>
+                        <h3>Global Expansion</h3>
+                        <p>Expanded our hero protection services to 50+ countries worldwide.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team Section -->
+            <div class="team-section">
+                <h2 class="text-center">Meet Our Hero Squad</h2>
+                <p class="text-center text-cold-grey mb-xl">
+                    The brilliant minds behind your digital fortress.
+                </p>
+
+                <div class="team-grid">
+                    <div class="team-member">
+                        <div class="member-avatar">🦸</div>
+                        <h3>Alex Guardian</h3>
+                        <p class="text-cold-grey">Chief Security Hero</p>
+                        <p class="text-sm mt-sm">Former cybersecurity expert with 15+ years of experience protecting Fortune 500 companies.</p>
+                    </div>
+
+                    <div class="team-member">
+                        <div class="member-avatar">🦸‍♀️</div>
+                        <h3>Maya Shield</h3>
+                        <p class="text-cold-grey">Lead Developer</p>
+                        <p class="text-sm mt-sm">Full-stack wizard with a passion for creating beautiful, secure applications.</p>
+                    </div>
+
+                    <div class="team-member">
+                        <div class="member-avatar">🦹</div>
+                        <h3>Dr. Crypto</h3>
+                        <p class="text-cold-grey">Cryptography Expert</p>
+                        <p class="text-sm mt-sm">PhD in Cryptography, makes the uncrackable encryption that keeps you safe.</p>
+                    </div>
+
+                    <div class="team-member">
+                        <div class="member-avatar">🧙‍♂️</div>
+                        <h3>Wizard Will</h3>
+                        <p class="text-cold-grey">UX/UI Designer</p>
+                        <p class="text-sm mt-sm">Turns complex security into beautiful, intuitive comic-themed interfaces.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Comic Secure</h3>
+                    <p>Your ultimate security headquarters. Protecting heroes since 2024.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="/about.html">About Us</a></li>
+                        <li><a href="/contact.html">Contact</a></li>
+                        <li><a href="/privacy.html">Privacy Policy</a></li>
+                        <li><a href="/terms.html">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Connect</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">Discord</a></li>
+                        <li><a href="#">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2024 Comic Secure. All rights reserved. Superhero protection guaranteed!</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        });
+    </script>
+</body>
+</html>

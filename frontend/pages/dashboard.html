@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="your-csrf-token-here">
+    <title>Dashboard - Comic Secure</title>
+    <link rel="stylesheet" href="/assets/css/comic-theme.css">
+    <style>
+        .dashboard {
+            padding: var(--space-xl) 0;
+        }
+
+        .welcome-banner {
+            background: linear-gradient(135deg, 
+                var(--boho-brown) 0%, 
+                rgba(174, 136, 117, 0.8) 100%);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+            margin-bottom: var(--space-xl);
+            color: var(--authentic-black);
+            text-align: center;
+        }
+
+        .welcome-banner h1 {
+            color: var(--authentic-black);
+            margin-bottom: var(--space-sm);
+        }
+
+        .welcome-banner p {
+            color: rgba(8, 8, 8, 0.8);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-lg);
+            margin-bottom: var(--space-xl);
+        }
+
+        .action-card {
+            background-color: var(--asteroid);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all var(--transition-normal);
+            cursor: pointer;
+        }
+
+        .action-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--boho-brown);
+        }
+
+        .action-icon {
+            font-size: 2.5rem;
+            margin-bottom: var(--space-md);
+            color: var(--boho-brown);
+        }
+
+        .action-title {
+            font-size: 1.2rem;
+            margin-bottom: var(--space-sm);
+            color: var(--white);
+        }
+
+        .action-description {
+            color: var(--cold-grey);
+            font-size: 0.9rem;
+        }
+
+        .activity-feed {
+            background-color: var(--asteroid);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+            margin-bottom: var(--space-xl);
+        }
+
+        .activity-item {
+            padding: var(--space-md);
+            border-bottom: 1px solid var(--cold-grey);
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            font-size: 1.2rem;
+            color: var(--boho-brown);
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-time {
+            font-size: 0.8rem;
+            color: var(--cold-grey);
+        }
+
+        .security-status {
+            background-color: var(--asteroid);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+        }
+
+        .security-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--space-md);
+            border-bottom: 1px solid var(--cold-grey);
+        }
+
+        .security-item:last-child {
+            border-bottom: none;
+        }
+
+        .security-status-icon {
+            font-size: 1.5rem;
+        }
+
+        .status-good {
+            color: var(--success-green);
+        }
+
+        .status-warning {
+            color: var(--warning-yellow);
+        }
+
+        .status-error {
+            color: var(--error-red);
+        }
+    </style>
+</head>
+<body class="authenticated">
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="logo">Comic Secure</a>
+            <ul class="nav-links">
+                <li><a href="/dashboard.html" class="active">Dashboard</a></li>
+                <li><a href="/profile.html">Profile</a></li>
+                <li><a href="/settings.html">Settings</a></li>
+                <li><a href="/contact.html">Contact</a></li>
+                <li><a href="#" id="logoutBtn">Logout</a></li>
+            </ul>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">☰</button>
+        </div>
+    </nav>
+
+    <!-- Dashboard Content -->
+    <main class="dashboard">
+        <div class="container">
+            <!-- Welcome Banner -->
+            <div class="welcome-banner">
+                <h1 id="welcomeMessage">Welcome Back, Hero!</h1>
+                <p>Your secret headquarters is secure and ready for action.</p>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <div class="action-card" onclick="window.location.href='/profile.html'">
+                    <div class="action-icon">👤</div>
+                    <h3 class="action-title">Update Profile</h3>
+                    <p class="action-description">Customize your hero identity</p>
+                </div>
+
+                <div class="action-card" onclick="window.location.href='/settings.html'">
+                    <div class="action-icon">⚙️</div>
+                    <h3 class="action-title">Security Settings</h3>
+                    <p class="action-description">Fortify your account defenses</p>
+                </div>
+
+                <div class="action-card" onclick="window.location.href='/contact.html'">
+                    <div class="action-icon">📧</div>
+                    <h3 class="action-title">Contact Support</h3>
+                    <p class="action-description">Get help from our hero squad</p>
+                </div>
+
+                <div class="action-card" onclick="showActivityLog()">
+                    <div class="action-icon">📊</div>
+                    <h3 class="action-title">View Activity</h3>
+                    <p class="action-description">Monitor your account activity</p>
+                </div>
+            </div>
+
+            <!-- Activity Feed -->
+            <div class="activity-feed">
+                <h2>Recent Activity</h2>
+                <div id="activityList">
+                    <div class="activity-item">
+                        <div class="activity-icon">🔒</div>
+                        <div class="activity-content">
+                            <strong>Account Login</strong>
+                            <p>Successful login from your current device</p>
+                        </div>
+                        <div class="activity-time">Just now</div>
+                    </div>
+                    <!-- More activities will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Security Status -->
+            <div class="security-status">
+                <h2>Security Status</h2>
+                <div id="securityStatus">
+                    <div class="security-item">
+                        <div>
+                            <strong>Password Strength</strong>
+                            <p>Your password is strong and secure</p>
+                        </div>
+                        <div class="security-status-icon status-good">✓</div>
+                    </div>
+                    <div class="security-item">
+                        <div>
+                            <strong>Two-Factor Authentication</strong>
+                            <p>Add an extra layer of security</p>
+                        </div>
+                        <div class="security-status-icon status-warning">⚠</div>
+                    </div>
+                    <div class="security-item">
+                        <div>
+                            <strong>Session Management</strong>
+                            <p>Active sessions: 1</p>
+                        </div>
+                        <div class="security-status-icon status-good">✓</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Comic Secure</h3>
+                    <p>Your ultimate security headquarters. Protecting heroes since 2024.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="/about.html">About Us</a></li>
+                        <li><a href="/contact.html">Contact</a></li>
+                        <li><a href="/privacy.html">Privacy Policy</a></li>
+                        <li><a href="/terms.html">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Connect</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">Discord</a></li>
+                        <li><a href="#">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2024 Comic Secure. All rights reserved. Superhero protection guaranteed!</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/assets/js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check authentication
+            if (!authService.isAuthenticated()) {
+                window.location.href = '/login.html';
+                return;
+            }
+
+            // Load user data
+            const user = authService.getCurrentUser();
+            if (user) {
+                const welcomeMessage = document.getElementById('welcomeMessage');
+                welcomeMessage.textContent = `Welcome Back, ${user.username || 'Hero'}!`;
+            }
+
+            // Logout button
+            document.getElementById('logoutBtn').addEventListener('click', async function(e) {
+                e.preventDefault();
+                await authService.logout();
+            });
+
+            // Mobile menu toggle
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const navLinks = document.querySelector('.nav-links');
+            
+            mobileMenuBtn.addEventListener('click', function() {
+                navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+            });
+
+            // Load activity data (simulated)
+            loadActivityData();
+        });
+
+        function loadActivityData() {
+            // In a real app, this would fetch from an API
+            const activities = [
+                {
+                    icon: '🔐',
+                    title: 'Password Updated',
+                    description: 'Your password was changed successfully',
+                    time: '2 hours ago'
+                },
+                {
+                    icon: '📱',
+                    title: 'New Device Login',
+                    description: 'Login from Chrome on Windows',
+                    time: '1 day ago'
+                },
+                {
+                    icon: '📧',
+                    title: 'Email Verified',
+                    description: 'Your email address was confirmed',
+                    time: '3 days ago'
+                }
+            ];
+
+            const activityList = document.getElementById('activityList');
+            activities.forEach(activity => {
+                const activityItem = document.createElement('div');
+                activityItem.className = 'activity-item';
+                activityItem.innerHTML = `
+                    <div class="activity-icon">${activity.icon}</div>
+                    <div class="activity-content">
+                        <strong>${activity.title}</strong>
+                        <p>${activity.description}</p>
+                    </div>
+                    <div class="activity-time">${activity.time}</div>
+                `;
+                activityList.appendChild(activityItem);
+            });
+        }
+
+        function showActivityLog() {
+            alert('In a real application, this would show detailed activity logs.');
+        }
+    </script>
+</body>
+</html>

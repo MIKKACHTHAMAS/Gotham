@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="your-csrf-token-here">
+    <title>Login - Comic Secure</title>
+    <link rel="stylesheet" href="/assets/css/comic-theme.css">
+    <style>
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-md);
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 400px;
+            background-color: var(--asteroid);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+            border: 2px solid var(--boho-brown);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .login-title {
+            text-align: center;
+            margin-bottom: var(--space-xl);
+        }
+
+        .login-logo {
+            display: block;
+            margin: 0 auto var(--space-lg);
+            font-size: 3rem;
+            color: var(--boho-brown);
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: var(--space-lg);
+            padding-top: var(--space-md);
+            border-top: 1px solid var(--cold-grey);
+        }
+
+        .form-footer a {
+            color: var(--boho-brown);
+            text-decoration: none;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-lg);
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            color: var(--cold-grey);
+            cursor: pointer;
+        }
+
+        .checkbox-label input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+        }
+    </style>
+</head>
+<body class="unauthenticated">
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-logo">🦸</div>
+            <h1 class="login-title">Welcome Back, Hero!</h1>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email" class="form-label">Email Address</label>
+                    <input type="email" id="email" class="form-input" 
+                           placeholder="hero@comicsecure.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" id="password" class="form-input" 
+                           placeholder="Your super secret password" required>
+                </div>
+
+                <div class="remember-forgot">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="rememberMe">
+                        Remember me
+                    </label>
+                    <a href="/forgot-password.html" class="text-sm">Forgot Password?</a>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+                    Login to Your Lair
+                </button>
+
+                <div class="form-footer">
+                    <p>New to Comic Secure? 
+                        <a href="/register.html">Join the Adventure!</a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="/assets/js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('loginForm');
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const rememberMeCheckbox = document.getElementById('rememberMe');
+
+            // Clear errors on input
+            [emailInput, passwordInput].forEach(input => {
+                input.addEventListener('input', () => {
+                    FormValidator.clearError(input);
+                });
+            });
+
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Clear previous errors
+                document.querySelectorAll('.form-error').forEach(el => el.remove());
+                emailInput.classList.remove('error');
+                passwordInput.classList.remove('error');
+
+                // Get form values
+                const email = emailInput.value.trim();
+                const password = passwordInput.value;
+
+                // Validate email
+                if (!email) {
+                    FormValidator.showError(emailInput, 'Email is required');
+                    return;
+                }
+
+                if (!FormValidator.validateEmail(email)) {
+                    FormValidator.showError(emailInput, 'Please enter a valid email address');
+                    return;
+                }
+
+                // Validate password
+                if (!password) {
+                    FormValidator.showError(passwordInput, 'Password is required');
+                    return;
+                }
+
+                // Disable submit button
+                const submitBtn = form.querySelector('button[type="submit"]');
+                const originalText = submitBtn.textContent;
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Authenticating...';
+
+                try {
+                    // Attempt login
+                    await authService.login({ email, password });
+                    
+                    // Store remember me preference
+                    if (rememberMeCheckbox.checked) {
+                        localStorage.setItem('rememberMe', 'true');
+                    }
+
+                    // Show success message
+                    FormValidator.showSuccess(emailInput, 'Login successful! Redirecting...');
+                    
+                    // Redirect to dashboard
+                    setTimeout(() => {
+                        window.location.href = '/dashboard.html';
+                    }, 1000);
+
+                } catch (error) {
+                    // Show error message
+                    FormValidator.showError(emailInput, error.message || 'Invalid credentials');
+                    
+                    // Reset button
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalText;
+                }
+            });
+
+            // Check for saved credentials (only if remember me was checked)
+            if (localStorage.getItem('rememberMe') === 'true') {
+                // Note: In a real app, you might use secure cookies instead
+                rememberMeCheckbox.checked = true;
+            }
+
+            // Check if already logged in
+            if (authService.isAuthenticated()) {
+                window.location.href = '/dashboard.html';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="your-csrf-token-here">
+    <title>Profile - Comic Secure</title>
+    <link rel="stylesheet" href="/assets/css/comic-theme.css">
+    <style>
+        .profile-container {
+            padding: var(--space-xl) 0;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xl);
+            margin-bottom: var(--space-xl);
+            background-color: var(--asteroid);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+        }
+
+        .profile-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--boho-brown), var(--asteroid));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: var(--authentic-black);
+            border: 4px solid var(--boho-brown);
+        }
+
+        .profile-info h1 {
+            margin-bottom: var(--space-sm);
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: var(--space-xl);
+            margin-top: var(--space-md);
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--boho-brown);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--cold-grey);
+        }
+
+        .profile-content {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: var(--space-xl);
+        }
+
+        .profile-details {
+            background-color: var(--asteroid);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+        }
+
+        .detail-item {
+            margin-bottom: var(--space-lg);
+            padding-bottom: var(--space-lg);
+            border-bottom: 1px solid var(--cold-grey);
+        }
+
+        .detail-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .detail-label {
+            display: block;
+            color: var(--boho-brown);
+            font-weight: bold;
+            margin-bottom: var(--space-sm);
+        }
+
+        .detail-value {
+            color: var(--white);
+            font-size: 1.1rem;
+        }
+
+        .profile-sidebar {
+            background-color: var(--asteroid);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+        }
+
+        .badge {
+            display: inline-block;
+            background-color: var(--boho-brown);
+            color: var(--authentic-black);
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-right: var(--space-sm);
+            margin-bottom: var(--space-sm);
+        }
+
+        @media (max-width: 768px) {
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+                gap: var(--space-lg);
+            }
+
+            .profile-stats {
+                justify-content: center;
+            }
+
+            .profile-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="authenticated">
+    <!-- Navigation (same as dashboard) -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="logo">Comic Secure</a>
+            <ul class="nav-links">
+                <li><a href="/dashboard.html">Dashboard</a></li>
+                <li><a href="/profile.html" class="active">Profile</a></li>
+                <li><a href="/settings.html">Settings</a></li>
+                <li><a href="/contact.html">Contact</a></li>
+                <li><a href="#" id="logoutBtn">Logout</a></li>
+            </ul>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">☰</button>
+        </div>
+    </nav>
+
+    <!-- Profile Content -->
+    <main class="profile-container">
+        <div class="container">
+            <!-- Profile Header -->
+            <div class="profile-header">
+                <div class="profile-avatar" id="userAvatar">
+                    🦸
+                </div>
+                <div class="profile-info">
+                    <h1 id="userFullName">Loading...</h1>
+                    <p id="userUsername" class="text-cold-grey">@username</p>
+                    <p id="userEmail" class="text-cold-grey">Loading...</p>
+                    
+                    <div class="profile-stats">
+                        <div class="stat">
+                            <span class="stat-value" id="memberSince">-</span>
+                            <span class="stat-label">Member Since</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value" id="accountStatus">Active</span>
+                            <span class="stat-label">Status</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value" id="userRole">Hero</span>
+                            <span class="stat-label">Role</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Content -->
+            <div class="profile-content">
+                <!-- Main Details -->
+                <div class="profile-details">
+                    <h2>Hero Details</h2>
+                    
+                    <div class="detail-item">
+                        <span class="detail-label">Hero Alias</span>
+                        <span class="detail-value" id="detailUsername">Loading...</span>
+                    </div>
+
+                    <div class="detail-item">
+                        <span class="detail-label">Secret Identity</span>
+                        <span class="detail-value" id="detailFullName">Loading...</span>
+                    </div>
+
+                    <div class="detail-item">
+                        <span class="detail-label">Communication Channel</span>
+                        <span class="detail-value" id="detailEmail">Loading...</span>
+                    </div>
+
+                    <div class="detail-item">
+                        <span class="detail-label">Account Creation</span>
+                        <span class="detail-value" id="detailCreatedAt">Loading...</span>
+                    </div>
+
+                    <div class="detail-item">
+                        <span class="detail-label">Last Profile Update</span>
+                        <span class="detail-value" id="detailUpdatedAt">Loading...</span>
+                    </div>
+
+                    <div class="detail-item">
+                        <span class="detail-label">Verification Status</span>
+                        <span class="detail-value" id="detailVerification">Loading...</span>
+                    </div>
+
+                    <button onclick="window.location.href='/settings.html'" 
+                            class="btn btn-primary mt-lg">
+                        ✏️ Edit Profile
+                    </button>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="profile-sidebar">
+                    <h2>Hero Badges</h2>
+                    <div id="badgesContainer">
+                        <span class="badge">Founding Hero</span>
+                        <span class="badge">Security Master</span>
+                        <span class="badge">Active Defender</span>
+                        <span class="badge">Comic Enthusiast</span>
+                    </div>
+
+                    <h2 class="mt-xl">Quick Actions</h2>
+                    <div class="flex flex-col gap-md mt-md">
+                        <button onclick="changeAvatar()" class="btn btn-secondary">
+                            🖼️ Change Avatar
+                        </button>
+                        <button onclick="updateProfile()" class="btn btn-secondary">
+                            ✏️ Update Profile
+                        </button>
+                        <button onclick="viewActivity()" class="btn btn-secondary">
+                            📊 View Activity
+                        </button>
+                        <button onclick="exportData()" class="btn btn-secondary">
+                            📥 Export Data
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer (same as dashboard) -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Comic Secure</h3>
+                    <p>Your ultimate security headquarters. Protecting heroes since 2024.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="/about.html">About Us</a></li>
+                        <li><a href="/contact.html">Contact</a></li>
+                        <li><a href="/privacy.html">Privacy Policy</a></li>
+                        <li><a href="/terms.html">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Connect</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">Discord</a></li>
+                        <li><a href="#">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2024 Comic Secure. All rights reserved. Superhero protection guaranteed!</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/assets/js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check authentication
+            if (!authService.isAuthenticated()) {
+                window.location.href = '/login.html';
+                return;
+            }
+
+            // Load user profile
+            loadUserProfile();
+
+            // Logout button
+            document.getElementById('logoutBtn').addEventListener('click', async function(e) {
+                e.preventDefault();
+                await authService.logout();
+            });
+
+            // Mobile menu toggle
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const navLinks = document.querySelector('.nav-links');
+            
+            mobileMenuBtn.addEventListener('click', function() {
+                navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+            });
+        });
+
+        async function loadUserProfile() {
+            try {
+                const user = authService.getCurrentUser();
+                if (!user) {
+                    window.location.href = '/login.html';
+                    return;
+                }
+
+                // Update profile information
+                document.getElementById('userFullName').textContent = 
+                    user.fullName || 'Mystery Hero';
+                document.getElementById('userUsername').textContent = `@${user.username}`;
+                document.getElementById('userEmail').textContent = user.email;
+                
+                document.getElementById('detailUsername').textContent = user.username;
+                document.getElementById('detailFullName').textContent = 
+                    user.fullName || 'Classified';
+                document.getElementById('detailEmail').textContent = user.email;
+                document.getElementById('userRole').textContent = 
+                    user.role === 'admin' ? 'Admin' : 'Hero';
+
+                // Generate avatar based on username
+                const avatarElement = document.getElementById('userAvatar');
+                const firstChar = user.username.charAt(0).toUpperCase();
+                const avatars = ['🦸', '🦸‍♀️', '🦹', '🦹‍♀️', '🧙', '🧙‍♀️', '🧚', '🧚‍♀️'];
+                const avatarIndex = firstChar.charCodeAt(0) % avatars.length;
+                avatarElement.textContent = avatars[avatarIndex];
+
+                // Simulate loading additional data
+                setTimeout(() => {
+                    document.getElementById('memberSince').textContent = '2024';
+                    document.getElementById('detailCreatedAt').textContent = 
+                        'January 1, 2024';
+                    document.getElementById('detailUpdatedAt').textContent = 
+                        'Recently';
+                    document.getElementById('detailVerification').textContent = 
+                        user.is_verified ? '✅ Verified' : '⚠️ Pending';
+                    document.getElementById('accountStatus').textContent = 
+                        user.is_active ? 'Active' : 'Inactive';
+                }, 500);
+
+            } catch (error) {
+                console.error('Error loading profile:', error);
+                alert('Failed to load profile. Please try again.');
+            }
+        }
+
+        function changeAvatar() {
+            alert('Avatar customization coming soon!');
+        }
+
+        function updateProfile() {
+            window.location.href = '/settings.html';
+        }
+
+        function viewActivity() {
+            window.location.href = '/dashboard.html';
+        }
+
+        function exportData() {
+            alert('Data export feature coming soon!');
+        }
+    </script>
+</body>
+</html>
